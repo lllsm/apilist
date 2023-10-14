@@ -1,0 +1,154 @@
+<?php
+  require __DIR__.'/head.html';
+  require __DIR__.'/nav.html';
+  $File_Ming = 'addapi';
+  ?>
+<div class="xp-rightbar">
+<div class="xp-topbar">
+
+                <div class="row">
+
+                    <!-- Start XP Col -->
+                    <div class="col-2 col-md-1 col-lg-1 order-2 order-md-1 align-self-center">
+                        <div class="xp-menubar">
+                            <a class="xp-menu-hamburger" href="javascript:void();">
+                                <i class="icon-menu font-20 text-white"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <!-- End XP Col -->
+
+                    <!-- Start XP Col -->
+                    <div class="col-10 col-md-11 col-lg-11 order-1 order-md-2">
+                        <div class="xp-profilebar text-right">
+                           
+                        </div>
+                    </div>
+                    <!-- End XP Col -->
+
+                </div>
+
+            </div>
+    
+<div class="xp-breadcrumbbar">
+                <div class="row">
+                    <div class="col-md-6 col-lg-6">
+                        <h4 class="xp-page-title">网站设置</h4>
+                    </div>
+                    <div class="col-md-6 col-lg-6">
+                        <div class="xp-breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="index.html"><i class="icon-home"></i></a></li>
+                                <li class="breadcrumb-item"><a href="#">控制台</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">网站设置</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>          
+            </div>
+            
+<div class="xp-contentbar">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card m-b-30">
+
+                            <div class="card-header bg-white">
+                                <h5 class="card-title text-black">WebSite Setting</h5>
+                                <h6 class="card-subtitle">设置网站的各种信息.</h6>
+                            </div>
+
+                            <div class="card-body">
+
+                                <form class="xp-form-validate" action="#" method="post" novalidate="novalidate" id="admin-webset">
+                                    <div class="form-group row">
+                                        <label class="col-lg-3 col-form-label" for="val-username">网站标题 <span class="text-danger">*</span></label>
+                                        <div class="col-lg-6">
+                                            <input class="form-control" id="title" type="text" aria-describedby="title" name="title"
+                  value="<?php echo $web['title']; ?>" placeholder="请输入网站标题">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-lg-3 col-form-label" for="val-email">副标题 <span class="text-danger">*</span></label>
+                                        <div class="col-lg-6">
+                                           <input class="form-control" id="name" type="text" aria-describedby="name" name="name"
+                  value="<?php echo $web['name']; ?>" placeholder="请输入网站副标题">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-lg-3 col-form-label" for="val-password">网站关键字 <span class="text-danger">*</span></label>
+                                        <div class="col-lg-6">
+                                             <input class="form-control" id="keywords" type="text" aria-describedby="keywords" name="keywords"
+                  value="<?php echo $web['keywords']; ?>" placeholder="请输入网站关键字">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-lg-3 col-form-label" for="val-confirm-password">网站描述 <span class="text-danger">*</span></label>
+                                        <div class="col-lg-6">
+                                            <input class="form-control" id="description" type="text" aria-describedby="description"
+                  name="description" value="<?php echo $web['description']; ?>" placeholder="请输入描述信息">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-lg-3 col-form-label" for="val-confirm-password">建站时间 <span class="text-danger">*</span></label>
+                                        <div class="col-lg-6">
+                                            <input class="form-control" id="time" type="text" aria-describedby="time" name="time"
+                  value="<?php echo $web['time']; ?>" placeholder="2019/02/14 18:00:00">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-lg-3 col-form-label" for="val-confirm-password">备案号 <span class="text-danger">*</span></label>
+                                        <div class="col-lg-6">
+                                            <textarea class="form-control" id="icp" name="icp" rows="2"
+                  placeholder='请输入人备案号'><?php echo $web['icp']; ?></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-lg-3 col-form-label" for="val-confirm-password">关于 <span class="text-danger">*</span></label>
+                                        <div class="col-lg-6">
+                                            <textarea class="form-control" id="about" name="about" rows="4"
+                  placeholder='关于'><?php echo $web['about']; ?></textarea>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="tile-footer">
+                                        <input value="webinfo" name="target" style="display: none">
+                                        <button type="button" class="btn btn-primary">保存</button>
+                                    </div>
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End XP Col -->
+
+                </div>   
+                <!-- End XP Row -->
+
+            </div>
+            
+            <?php  require __DIR__.'/footer.html'; ?>
+              <script>
+                $('#admin-webset button').click(function () {
+                  fd = new FormData(document.getElementById('admin-webset'));
+                  $.ajax({
+                    url: '/admin/webset',
+                    type: "POST",
+                    timeout: "5000",
+                    dataType: "json",
+                    contentType: 'application/x-www-form-urlencoded;charset=utf-8',
+                    data: fd,
+                    contentType: false,
+                    processData: false,
+                    success: function (data) {
+                      if (data.code == "200") {
+                        layer.msg(data.msg);
+                      } else {
+                        layer.msg(data.msg);
+                      }
+                    },
+                    error: function (XMLResponse) {
+                      layer.msg(XMLResponse.error);
+                    }
+                  });
+                });
+              </script>

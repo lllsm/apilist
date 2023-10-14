@@ -1,0 +1,154 @@
+<html lang="zh-cn" class=" js flexbox flexboxlegacy canvas canvastext webgl no-touch geolocation postmessage no-websqldatabase indexeddb hashchange history draganddrop websockets rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients cssreflections csstransforms csstransforms3d csstransitions fontface generatedcontent video audio localstorage sessionstorage webworkers no-applicationcache svg inlinesvg smil svgclippaths"><head>
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="Neon is a Responsive Bootstrap 4 Admin Dashboard Template">
+    <meta name="keywords" content="admin, admin template, admin panel, dashboard template, ui kits, web app, crm, cms, responsive, bootstrap 4, html, sass support, scss">
+    <meta name="author" content="Themesbox">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+
+    <title>登录中心</title>
+
+    <!-- Fevicon -->
+    <link rel="shortcut icon" href="../assets/login/images/favicon.ico">
+
+    <!-- Start CSS -->
+    <link href="../assets/login/css/bootstrap.css" rel="stylesheet" type="text/css">
+    <link href="../assets/login/css/icons.css" rel="stylesheet" type="text/css">
+    <link href="../assets/login/css/style.css" rel="stylesheet" type="text/css">
+    <!-- End CSS -->
+
+</head>
+
+<body class="xp-vertical">
+
+    <div class="xp-authenticate-bg"></div>
+    <!-- Start XP Container -->
+    <div id="xp-container" class="xp-container">
+
+        <!-- Start Container -->
+        <div class="container">
+
+            <!-- Start XP Row -->
+            <div class="row vh-100 align-items-center">
+                <!-- Start XP Col -->
+                <div class="col-lg-12 ">
+
+                    <!-- Start XP Auth Box -->
+                    <div class="xp-auth-box">
+
+                        <div class="card">
+                            <div class="card-body">
+                                <h3 class="text-center mt-0 m-b-15">
+                                    <a href="index.html" class="xp-web-logo"><img src="../assets/login/images/logo.svg" height="40" alt="logo"></a>
+                                </h3>
+                                <div class="p-3">
+                                    <form id="user-login" class="signin-form"  method="post">
+                                        <div class="text-center mb-3">
+                                            <h4 class="text-black">Sign In !</h4>
+                                            <p class="text-muted">没有账号? <a href="register.html">注册账号</a> </p>
+                                        </div>                                        
+                                        <div class="login-or">
+                                            <h6 class="text-muted">Login</h6>
+                                        </div>
+                                        <div class="form-group">
+                                             <input class="form-control" type="text" name="username" value="" placeholder="请输入账号" autofocus>
+                                        </div>
+                                        <div class="form-group">
+                                            <input class="form-control" type="password" name="password" placeholder="请输入密码">
+                                        </div>
+                                        <div class="form-group">
+                                            
+                                            <div style="position: relative;">
+                                        <input class="form-control" style="width: 150px;" type="text" name="code" placeholder="请输入验证码">
+                                        <img id="code" style="cursor:pointer;position: absolute;top: 3px;right: 0px;" src="/code/login" onclick="javascript:this.src='/code/login?'+Math.random()" title="看不清？点击更换" align="absmiddle" />
+                                    </div>
+                                         
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col-6">
+                                                <div class="custom-control custom-checkbox">
+                                                  <input type="checkbox" class="custom-control-input" id="rememberme">
+                                                  <label class="custom-control-label" for="rememberme">Remember Me</label>
+                                                </div>                                
+                                            </div>
+                                            <div class="form-group col-6 text-right">
+                                              <label class="forgot-psw"> 
+                                                <a id="forgot-psw" href="forget.html">Forgot Password?</a>
+                                              </label>
+                                            </div>
+                                        </div>                          
+                                      <button type="button" class="btn btn-primary btn-rounded btn-lg btn-block">Sign In</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- End XP Auth Box -->
+
+                </div>
+                <!-- End XP Col -->
+            </div>
+            <!-- End XP Row -->
+        </div>
+        <!-- End Container -->
+    </div>
+    <!-- End XP Container -->
+
+
+    <!-- End JS -->
+      <script src="/assets/other/js/jquery.min.js"></script>
+  <!-- The javascript plugin to display page loading on top-->
+  <script src="/assets/awesome/js/plugins/pace.min.js"></script>
+  <script src="/assets/layui/layui.all.js"></script>
+  <script type="text/javascript">
+    // Login Page Flipbox control
+    $('.login-content [data-toggle="flip"]').click(function () {
+      $('.login-box').toggleClass('flipped');
+      return false;
+    });
+    //回车提交事件
+    $("body").keydown(function () {
+      if (event.keyCode == "13") { //keyCode=13是回车键
+        $('#user-login button').click();
+      }
+    });
+    $('#user-login button').click(function () {
+      /*实例化表单数据*/
+      var fd = new FormData(document.getElementById('user-login'));
+      $.ajax({
+        url: '/user/login',
+        type: "POST",
+        timeout: "5000",
+        dataType: "json",
+        contentType: 'application/x-www-form-urlencoded;charset=utf-8',
+        data: fd,
+        contentType: false,
+        processData: false,
+        success: function (data) {
+          if (data.code == "200") {
+            layer.msg(data.msg, {
+              time: 1000
+            }, function () {
+              window.location.href = "/user";
+            });
+          } else {
+            layer.msg(data.msg);
+            if (document.getElementById('code')) {
+              document.getElementById('code').src = '/code/login?' + Math.random();
+            }
+            if (document.getElementById('valcode')) {
+              document.getElementById('valcode').value = "";
+            }
+          }
+        },
+        error: function (XMLResponse) {
+          layer.msg("登录异常");
+        }
+      });
+    });
+  </script>
+
+
+</body></html>

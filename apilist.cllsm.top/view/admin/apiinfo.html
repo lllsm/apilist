@@ -1,0 +1,174 @@
+<?php
+  require __DIR__.'/head.html';
+  require __DIR__.'/nav.html';
+  $File_Ming = 'apiinfo';
+  ?>
+<div class="xp-rightbar">
+<div class="xp-topbar">
+
+                <div class="row">
+
+                    <!-- Start XP Col -->
+                    <div class="col-2 col-md-1 col-lg-1 order-2 order-md-1 align-self-center">
+                        <div class="xp-menubar">
+                            <a class="xp-menu-hamburger" href="javascript:void();">
+                                <i class="icon-menu font-20 text-white"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <!-- End XP Col -->
+
+                    <!-- Start XP Col -->
+                    <div class="col-10 col-md-11 col-lg-11 order-1 order-md-2">
+                        <div class="xp-profilebar text-right">
+                           
+                        </div>
+                    </div>
+                    <!-- End XP Col -->
+
+                </div>
+
+            </div>
+<div class="xp-breadcrumbbar">
+                <div class="row">
+                    <div class="col-md-6 col-lg-6">
+                        <h4 class="xp-page-title">参数设置</h4>
+                    </div>
+                    <div class="col-md-6 col-lg-6">
+                        <div class="xp-breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="index.html"><i class="icon-home"></i></a></li>
+                                <li class="breadcrumb-item"><a href="#">接口管理</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">参数设置</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>          
+            </div>
+<div class="xp-contentbar">
+
+                <!-- Start XP Row -->
+                <div class="row">
+                    <style>
+                        #admin-apiinfo .close {
+                            background-color: transparent;
+                            border: 0;
+                            -webkit-appearance: none;
+                        }
+                    </style>
+
+                    <!-- Start XP Col -->
+                    <div class="col-lg-12">
+                        <div class="card m-b-30">
+
+                            <div class="card-header bg-white">
+                                <h5 class="card-title text-black">参数添加</h5>
+                                <h6 class="card-subtitle">告诉用户们，你的接口调用方法吧！ <code class="highlighter-rouge">添加更多参数</code> 让我们共建持续性公益接口生态</h6>
+                            </div>
+
+                            <div class="card-body">
+
+                                <form id="admin-apiinfo">
+                                    <div class="apihttp">
+                                    <div class="row"> <div class="col-lg-2"> <div class="form-group"> <label for="name0">参数名1</label> <input class="form-control" id="name0" type="text" aria-describedby="name0" name="data[0][name]" value="" placeholder="url"> </div> </div> <div class="col-lg-2"> <div class="form-group"> <label for="crux0">必填</label> <input class="form-control" id="crux0" type="text" aria-describedby="crux0" name="data[0][crux]" value="是" placeholder="是"> </div> </div> <div class="col-lg-3"> <div class="form-group"> <label for="type0">参数类型</label> <input class="form-control" id="data1" type="text" aria-describedby="type0" name="data[0][type]" value="string" placeholder="string"> </div> </div> <div class="col-lg-5"> <div class="form-group"> <label for="desc0">参数说明</label> <input class="form-control" id="desc0" type="text" aria-describedby="desc0" name="data[0][desc]" value="" placeholder="需要进行操作网址"> </div> </div> </div>
+                                  </div>
+                                   <div class="row" style="text-align: center;width: 100%;display: inline-block;">
+                        <a href="javascript:" id="addapihttp">添加新参数</a> </div>
+                                    <div class="form-group">
+                                    <label for="optApi">选择绑定接口</label>
+                                    <select class="form-control" name="optApi" id="optApi">
+                                        <?php if(!empty($data)):
+                                        foreach ($data as $k => $v) : ?>
+                                        <option value="<?php echo $v['l_id']; ?>"><?php echo $v['l_title']; ?></option>
+                                        <?php endforeach;
+                                        endif;?>
+                                    </select>
+                                </div>
+                    
+                                    <div class="form-group">
+                                    <label for="optType">选择参数类型</label>
+                                    <select class="form-control" name="optType" id="optType">
+                                        <option value="0">请求参数</option>
+                                        <option value="1">返回参数</option>
+                                        <option value="2">错误码</option>
+                                    </select>
+                                </div>
+                                    
+                                    <div class="tile-footer">
+                                <input value="apiinfo" name="target" style="display: none">
+                                <button type="button" class="btn btn-primary">添加</button>
+                            </div>
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+                    
+
+       
+                    
+
+
+            </div>
+            
+            <?php require __DIR__.'/footer.html';?>
+
+ <script>
+        /*阻止表单提交数据*/
+        $("form").click(function (event) {
+            event.preventDefault();
+        });
+
+        /*提交按下*/
+        $('#admin-apiinfo button').click(function () {
+
+            //判断是否存在接口
+            if ($('#optApi').val() == null) {
+                layer.msg("请选择绑定接口");
+                return;
+            }
+            /*实例化表单数据*/
+            var fd = new FormData(document.getElementById('admin-apiinfo'));
+            $.ajax({
+                url: '/admin/apiinfo',
+                type: "POST",
+                timeout: "5000",
+                dataType: "json",
+                contentType: 'application/x-www-form-urlencoded;charset=utf-8',
+                data: fd,
+                contentType: false,
+                processData: false,
+                success: function (data) {
+                    if (data.code == "200") {
+                        layer.msg(data.msg, { time: 1000 }, function () {
+                            location.reload();
+                        });
+                    } else {
+                        layer.msg(data.msg);
+                    }
+                },
+                error: function (XMLResponse) {
+                    layer.msg(XMLResponse.error);
+                }
+            });
+        });
+
+        var add_id = 0; //保存ID计数
+        $("#addapihttp").click(function () {
+            add_id++;
+            $(".apihttp").append(
+                '<hr><div class="row"> <div class="col-lg-2"> <div class="form-group"> <label for="name' + add_id +
+                '">参数名' + ((add_id - 0) + 1) + '</label> <input class="form-control" id="name' + add_id +
+                '" type="text" aria-describedby="name' + add_id + '" name="data[' + add_id +
+                '][name]" value="" placeholder="url"> </div> </div> <div class="col-lg-2"> <div class="form-group"> <label for="crux' +
+                add_id + '">必填</label> <input class="form-control" id="crux' + add_id +
+                '" type="text" aria-describedby="crux' + add_id + '" name="data[' + add_id +
+                '][crux]" value="是" placeholder="是"> </div> </div> <div class="col-lg-3"> <div class="form-group"> <label for="type' +
+                add_id + '">参数类型</label> <input class="form-control" id="data' + add_id +
+                '" type="text" aria-describedby="type' + add_id + '" name="data[' + add_id +
+                '][type]" value="string" placeholder="string"> </div> </div> <div class="col-lg-5"> <div class="form-group"> <label for="desc' +
+                add_id + '">参数说明</label> <input class="form-control" id="desc' + add_id +
+                '" type="text" aria-describedby="desc' + add_id + '" name="data[' + add_id +
+                '][desc]" value="" placeholder="需要进行操作网址"> </div> </div> </div>');
+        });
+    </script>
